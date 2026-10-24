@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Academic Agent</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-icon">✦</div><div><strong>Smart Academic</strong><small>AGENT</small></div></div>
+    <div class="side-label">MENU UTAMA</div>
+    <button class="nav active" data-view="dashboard">▦ <span>Dashboard</span></button>
+    <button class="nav" data-view="tasks">☷ <span>Daftar Tugas</span></button>
+    <button class="nav" data-view="assistant">✧ <span>AI Assistant</span></button>
+    <div class="sidebar-note"><span class="spark">✦</span><strong>Belajar lebih teratur</strong><p>Atur tugasmu, satu langkah pada satu waktu.</p></div>
+    <div class="profile"><div class="avatar">M</div><div><strong>Mahasiswa</strong><small>Pengguna</small></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div><div class="eyebrow">ASISTEN AKADEMIK PRIBADI</div><h1 id="pageTitle">Dashboard</h1></div><button class="primary" id="addTaskTop">＋ Tambah Tugas</button></header>
+
+    <section id="dashboardView" class="view">
+      <div class="welcome"><div><div class="welcome-kicker">RUANG BELAJAR KAMU</div><h2>Halo, Mahasiswa! 👋</h2><p>Yuk, atur tugas dan selesaikan satu per satu.</p></div><div class="welcome-art">✦</div></div>
+      <div class="stats">
+        <article class="stat-card"><div class="stat-icon lavender">☷</div><span>Total Tugas</span><strong id="totalCount">0</strong><small>Semua tugas terdaftar</small></article>
+        <article class="stat-card"><div class="stat-icon green">✓</div><span>Tugas Selesai</span><strong id="doneCount">0</strong><small id="doneSub">Progres tugas kamu</small></article>
+        <article class="stat-card"><div class="stat-icon orange">◷</div><span>Belum Selesai</span><strong id="pendingCount">0</strong><small>Masih perlu dikerjakan</small></article>
+        <article class="stat-card"><div class="stat-icon pink">⚑</div><span>Mendekati Tenggat</span><strong id="urgentCount">0</strong><small>Dalam 2 hari ke depan</small></article>
+      </div>
+      <div class="section-heading"><div><h2>Tugas Prioritas</h2><p>Daftar tugas yang perlu kamu perhatikan.</p></div><button class="text-button" data-goto="tasks">Lihat semua →</button></div>
+      <div id="priorityList" class="task-list"></div>
+      <div class="section-heading assistant-heading"><div><h2>Rekomendasi AI</h2><p>Mulai dengan langkah yang paling penting.</p></div><span class="ai-pill">✦ Smart Agent</span></div>
+      <div class="recommendation"><div class="recommend-icon">✧</div><div><strong id="recommendTitle">Belum ada rekomendasi</strong><p id="recommendText">Tambahkan tugas untuk mendapatkan rekomendasi prioritas.</p></div><button class="outline" data-goto="assistant">Tanya AI Agent</button></div>
+    </section>
+
+    <section id="tasksView" class="view hidden">
+      <div class="section-heading"><div><h2>Semua Tugas</h2><p>Kelola tugas kuliah dan tenggat waktumu.</p></div><button class="primary" id="addTaskButton">＋ Tambah Tugas</button></div>
+      <div class="filters"><input id="searchTask" type="search" placeholder="Cari nama tugas atau mata kuliah..."><select id="filterStatus"><option value="all">Semua status</option><option value="pending">Belum selesai</option><option value="done">Selesai</option></select></div>
+      <div id="allTasksList" class="task-list"></div>
+    </section>
+
+    <section id="assistantView" class="view hidden">
+      <div class="assistant-intro"><div class="assistant-orb">✦</div><div><h2>Hai! Aku Smart Academic Agent.</h2><p>Aku bisa membantu menentukan prioritas tugas berdasarkan data tugas yang kamu simpan.</p></div></div>
+      <div class="chat-panel">
+        <div class="chat-top"><div class="mini-orb">✦</div><div><strong>Smart Academic Agent</strong><small><span class="online"></span> Asisten akademik</small></div><button id="clearChat" class="icon-button" title="Bersihkan percakapan">↻</button></div>
+        <div id="chatMessages" class="chat-messages"><div class="message agent-message"><div class="message-avatar">✦</div><div class="bubble"><strong>Halo! 👋</strong><p>Aku bisa membantu menganalisis tugasmu, menyusun urutan prioritas, dan memberi saran jadwal. Pilih pertanyaan di bawah atau ketik pertanyaanmu.</p></div></div></div>
+        <div class="suggestions"><button class="suggestion">Tugas mana yang harus dikerjakan dulu?</button><button class="suggestion">Bantu susun jadwal belajar</button><button class="suggestion">Tugas apa yang mendekati tenggat?</button></div>
+        <form id="chatForm" class="chat-input"><input id="chatInput" placeholder="Tanyakan sesuatu tentang tugasmu..." autocomplete="off" aria-label="Pesan ke AI Assistant"><button class="send-button" aria-label="Kirim">➤</button></form>
+        <p class="disclaimer">✦ Rekomendasi dihasilkan dari data tugas yang kamu simpan di aplikasi ini (tenggat, prioritas, dan status). Tidak ada koneksi ke model AI eksternal — analisis dilakukan sepenuhnya di browser.</p>
+      </div>
+    </section>
+    <footer>Smart Academic Agent <span>•</span> Bantu kelola tugas, raih targetmu.</footer>
+  </main>
+
+  <dialog id="taskDialog">
+    <form id="taskForm" method="dialog">
+      <div class="dialog-head"><div><div class="eyebrow">MANAJEMEN TUGAS</div><h2 id="dialogTitle">Tambah Tugas Baru</h2></div><button type="button" id="closeDialog" class="icon-button">✕</button></div>
+      <input type="hidden" id="taskId">
+      <label>Nama tugas<input id="taskName" required maxlength="100" placeholder="Contoh: Makalah Sistem Informasi"></label>
+      <label>Mata kuliah<input id="taskCourse" required maxlength="80" placeholder="Contoh: Sistem Informasi Akuntansi"></label>
+      <div class="form-row"><label>Tenggat waktu<input id="taskDue" type="date" required></label><label>Prioritas<select id="taskPriority"><option value="Tinggi">Tinggi</option><option value="Sedang" selected>Sedang</option><option value="Rendah">Rendah</option></select></label></div>
+      <label>Status<select id="taskStatus"><option value="pending">Belum selesai</option><option value="done">Selesai</option></select></label>
+      <div class="dialog-actions"><button type="button" class="outline" id="cancelDialog">Batal</button><button class="primary" type="submit">Simpan Tugas</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
